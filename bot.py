@@ -14,7 +14,7 @@ bot = telebot.TeleBot(config.token)
 @bot.message_handler(commands=["joke"])
 def repeat_all_messages(message):
     text = random.choice(persist.jokes)
-    filename = "synthesized" + str(random.randint(1, 1000)) + ".mp3"
+    filename = text[:18].replace('"', '') + ".mp3"
     tts = gTTS(text=text, lang='ru')
     tts.save(filename)
     bot.send_audio(message.chat.id, open(filename, 'rb'))
