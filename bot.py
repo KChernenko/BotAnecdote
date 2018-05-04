@@ -9,8 +9,6 @@ from lxml import html
 
 import config
 
-# import persist
-
 bot = telebot.TeleBot(config.token)
 
 
