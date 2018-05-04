@@ -28,6 +28,14 @@ def handle(message):
     os.remove(filename)
 
 
+@bot.message_handler(commands=["shutUp"])
+def handle(message):
+    text = "Завали свою ебасосину"
+    filename = convert_text_to_voice_file(text)
+    bot.send_audio(message.chat.id, open(filename, 'rb'))
+    os.remove(filename)
+
+
 def convert_text_to_voice_file(message):
     filename = re.sub(r"[\"-\,]", "", message)[:18]
     print(filename)
