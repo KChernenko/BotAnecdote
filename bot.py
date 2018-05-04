@@ -17,13 +17,25 @@ bot = telebot.TeleBot(config.token)
 @bot.message_handler(commands=["joke"])
 def repeat_all_messages(message):
     text = get_random_anekdot()
-    print(text)
-    filename = re.sub(r"[\"-\,]", "", text)[:18]
-    print(filename)
-    tts = gTTS(text=text, lang='ru')
-    tts.save(filename)
+    filename = convert_text_to_voice_file(text)
     bot.send_audio(message.chat.id, open(filename, 'rb'))
     os.remove(filename)
+
+
+@bot.message_handler(commands=["osadok"])
+def handle(message):
+    text = "Осадок олень"
+    filename = convert_text_to_voice_file(text)
+    bot.send_audio(message.chat.id, open(filename, 'rb'))
+    os.remove(filename)
+
+
+def convert_text_to_voice_file(message):
+    filename = re.sub(r"[\"-\,]", "", message)[:18]
+    print(filename)
+    tts = gTTS(text=message, lang='ru')
+    tts.save(filename)
+    return filename
 
 
 def get_random_anekdot():
