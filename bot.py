@@ -1,24 +1,44 @@
 # -*- coding: utf-8 -*-
 import os
-import random
+import re
 
+import requests
 import telebot
 from gtts import gTTS
+from lxml import html
 
 import config
-import persist
+
+# import persist
 
 bot = telebot.TeleBot(config.token)
 
 
 @bot.message_handler(commands=["joke"])
 def repeat_all_messages(message):
-    text = random.choice(persist.jokes)
-    filename = text[:18].replace('"', '') + ".mp3"
+    text = get_random_anekdot()
+    print(text)
+    filename = re.sub(r"[\"-\,]", "", text)[:18]
+    print(filename)
     tts = gTTS(text=text, lang='ru')
     tts.save(filename)
     bot.send_audio(message.chat.id, open(filename, 'rb'))
     os.remove(filename)
+
+
+def get_random_anekdot():
+    url = "https://www.anekdot.ru/random/anekdot/"
+
+    headers = {
+        'Cache-Control': "no-cache",
+        'User-Agent': "Mozilla/5.0 (Macintosh;"
+    }
+
+    response = requests.request("GET", url, headers=headers)
+
+    tree = html.fromstring(response.content)
+    anek_of_the_day = tree.xpath('//div[@class="topicbox"]/div[@class="text"]')
+    return (anek_of_the_day[0].text_content())
 
 
 if __name__ == '__main__':
