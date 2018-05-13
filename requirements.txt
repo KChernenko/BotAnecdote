@@ -1,1 +1,5 @@
-pyTelegramBotAPI gtts lxml requests
+pip
+lxml
+gtts
+pyTelegramBotAPI
+requests
