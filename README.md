@@ -14,9 +14,11 @@ So, you need to install these dependencies through the **pip**.
 
 `$ pip3 install gTTS`
 
-And then:
-
 `$ pip3 install pyTelegramBotAPI`
+
+`$ pip3 install requests`
+
+`$ pip3 install lxml`
 
 When everything is ready, just hit:
 
