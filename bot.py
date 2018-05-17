@@ -14,8 +14,8 @@ bot = telebot.TeleBot(config.token)
 
 
 @bot.message_handler(commands=["joke"])
-def repeat_all_messages(message):
-    text = get_random_anekdot()
+def send_joke(message):
+    text = get_random_joke()
     filename = convert_text_to_voice_file(text)
     bot.send_audio(message.chat.id, open(filename, 'rb'))
     os.remove(filename)
@@ -29,7 +29,7 @@ def convert_text_to_voice_file(message):
     return filename
 
 
-def get_random_anekdot():
+def get_random_joke():
     url = "https://www.anekdot.ru/random/anekdot/"
 
     headers = {
